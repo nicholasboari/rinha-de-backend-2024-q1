@@ -1,22 +1,28 @@
 package com.nicholasboari.springproject.dto;
 
-import com.nicholasboari.springproject.model.TipoTransacaoEnum;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Data
 public class TransacaoRequestDTO {
 
     @Positive
-    private Long valor;
-    @Enumerated(EnumType.STRING)
-    private TipoTransacaoEnum tipo;
+    @NotNull
+    private Double valor;
+    @Pattern(regexp = "[cd]")
+    @NotNull
+    private String tipo;
+    @NotNull
+    @NotEmpty
     @Size(min = 1, max = 10)
     private String descricao;
     private Instant realizadaEm;
+
+    @AssertTrue
+    boolean isAmountIntegerValue() {
+        return Objects.nonNull(valor) && valor % 1 == 0;
+    }
 }

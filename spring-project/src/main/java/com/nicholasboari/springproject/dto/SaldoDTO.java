@@ -10,8 +10,8 @@ import java.time.Instant;
 @Builder
 public class SaldoDTO {
 
-    private Long total;
+    private Integer total;
     @JsonProperty("data_extrato")
     private Instant dataExtrato;
-    private Long limite;
+    private Integer limite;
 }

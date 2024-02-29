@@ -11,7 +11,6 @@ import java.time.Instant;
 
 @Data
 @Entity(name = "tb_transacao")
-@Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,12 +22,15 @@ public class Transacao {
     private Long id;
 
     @Positive
-    private Long valor;
-    @Enumerated(EnumType.STRING)
-    private TipoTransacaoEnum tipo;
+    @Column(nullable = false)
+    private Integer valor;
+    @Column(nullable = false)
+    private String tipo;
     @Size(min = 1, max = 10)
+    @Column(nullable = false)
     private String descricao;
     @JsonProperty("realizada_em")
+    @Column(nullable = false)
     private Instant realizadaEm;
 
     @JsonIgnore

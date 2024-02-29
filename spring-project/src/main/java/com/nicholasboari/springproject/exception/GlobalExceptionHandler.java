@@ -1,7 +1,9 @@
 package com.nicholasboari.springproject.exception;
 
-import org.springframework.http.HttpStatus;
+import jakarta.validation.ValidationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -9,12 +11,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(TaDuroDormeException.class)
-    public ResponseEntity<String> handleTaDuroDormeException(TaDuroDormeException ex) {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ex.getMessage());
+    public ResponseEntity<?> handleTaDuroDormeException(TaDuroDormeException ex) {
+        return ResponseEntity.unprocessableEntity().body(ex.getMessage());
     }
 
     @ExceptionHandler(ClienteNotFoundException.class)
-    public ResponseEntity<String> handleClientNotFoundException(TaDuroDormeException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ResponseEntity<?> handleClientNotFoundException() {
+        return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class, ValidationException.class, HttpMessageNotReadableException.class})
+    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return ResponseEntity.unprocessableEntity().body(ex.getMessage());
     }
 }

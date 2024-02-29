@@ -7,12 +7,12 @@ import com.nicholasboari.springproject.dto.TransacaoResponseDTO;
 import com.nicholasboari.springproject.exception.ClienteNotFoundException;
 import com.nicholasboari.springproject.exception.TaDuroDormeException;
 import com.nicholasboari.springproject.model.Cliente;
-import com.nicholasboari.springproject.model.TipoTransacaoEnum;
 import com.nicholasboari.springproject.model.Transacao;
 import com.nicholasboari.springproject.repository.ClienteRepository;
 import com.nicholasboari.springproject.repository.TransacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
@@ -23,18 +23,23 @@ public class TransacaoService {
     private final ClienteRepository clienteRepository;
     private final TransacaoRepository transacaoRepository;
 
-    public TransacaoResponseDTO tranferir(Long id, TransacaoRequestDTO request) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado!"));
-        if (request.getTipo() == TipoTransacaoEnum.c) {
-            cliente.setSaldo(cliente.getSaldo() + request.getValor());
-        } else {
-            if (cliente.getSaldo() + cliente.getLimite() - request.getValor() < 0) {
-                throw new TaDuroDormeException("sem cash, ta duro dorme!");
-            }
-            cliente.setSaldo(cliente.getSaldo() - request.getValor());
+    @Transactional
+    public TransacaoResponseDTO transferir(Long id, TransacaoRequestDTO request) {
+        Cliente cliente = clienteRepository.findByIdWithLock(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado!"));
+
+        switch (request.getTipo()) {
+            case "c":
+                cliente.setSaldo(cliente.getSaldo() + request.getValor().intValue());
+                break;
+            case "d":
+                if (cliente.getSaldo() - request.getValor() < cliente.getLimite() * -1) {
+                    throw new TaDuroDormeException("sem cash, ta duro dorme!");
+                }
+                cliente.setSaldo(cliente.getSaldo() - request.getValor().intValue());
+                break;
         }
         Transacao transacao = Transacao.builder()
-                .valor(request.getValor())
+                .valor(request.getValor().intValue())
                 .tipo(request.getTipo())
                 .descricao(request.getDescricao())
                 .cliente(cliente)
@@ -44,11 +49,12 @@ public class TransacaoService {
         return new TransacaoResponseDTO(cliente.getLimite(), cliente.getSaldo());
     }
 
+    @Transactional
     public ExtratoResponseDTO buscarUltimosExtratos(Long id) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado!"));
+        Cliente cliente = clienteRepository.findByIdWithLock(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado!"));
         SaldoDTO saldoDTO = SaldoDTO.builder().total(cliente.getSaldo())
                 .dataExtrato(Instant.now())
                 .limite(cliente.getLimite()).build();
-        return new ExtratoResponseDTO(saldoDTO, transacaoRepository.findTop10ByClienteIdOrderByRealizadaEmDesc(id));
+        return new ExtratoResponseDTO(saldoDTO, transacaoRepository.findLast10TransactionsByClientIdWithLock(id));
     }
 }

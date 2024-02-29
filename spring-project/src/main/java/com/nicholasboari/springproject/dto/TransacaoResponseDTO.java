@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class TransacaoResponseDTO {
 
-    private Long limite;
-    private Long saldo;
+    private Integer limite;
+    private Integer saldo;
 }

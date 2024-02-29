@@ -1,13 +1,13 @@
 package com.nicholasboari.springproject.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
 @Data
 @Entity(name = "tb_cliente")
-@Table
 @NoArgsConstructor
 public class Cliente {
 
@@ -15,9 +15,9 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    private Long limite;
+    @Column(nullable = false)
+    private Integer limite;
 
-    @NonNull
-    private Long saldo;
+    @Column(nullable = false)
+    private Integer saldo;
 }

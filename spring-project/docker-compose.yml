@@ -19,17 +19,7 @@ services:
       resources:
         limits:
           cpus: "0.3"
-          memory: "65MB"
-
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.org
-      - PGADMIN_DEFAULT_PASSWORD=admin
-    ports:
-      - "5050:80"
-    depends_on:
-      - db
+          memory: "57MB"
 
   api01: &api
     build: ./api-spring
@@ -38,21 +28,21 @@ services:
     environment:
       - DB_HOSTNAME=db
       - server.port=8081
+      - JAVA_TOOL_OPTIONS=-XX:+UseSerialGC -Xss512k -XX:MaxRAM=241m
     depends_on:
       - db
-    env_file:
-      - dev.jvm.conf
     deploy:
       resources:
         limits:
           cpus: "0.5"
-          memory: "237MB"
+          memory: "241MB"
 
   api02:
     <<: *api
     hostname: api02
     environment:
       - server.port=8082
+      - JAVA_TOOL_OPTIONS=-XX:+UseSerialGC -Xss512k -XX:MaxRAM=241m
     depends_on:
       - db
 
@@ -70,7 +60,3 @@ services:
         limits:
           cpus: "0.1"
           memory: "11MB"
-
-#networks:
-#  my_network:
-#    driver: host

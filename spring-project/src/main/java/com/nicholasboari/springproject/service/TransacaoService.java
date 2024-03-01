@@ -25,7 +25,7 @@ public class TransacaoService {
 
     @Transactional
     public TransacaoResponseDTO transferir(Long id, TransacaoRequestDTO request) {
-        Cliente cliente = clienteRepository.findByIdWithLock(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado!"));
+        Cliente cliente = clienteRepository.findByIdWithLock(id).orElseThrow(() -> new ClienteNotFoundException("!"));
 
         switch (request.getTipo()) {
             case "c":
@@ -33,7 +33,7 @@ public class TransacaoService {
                 break;
             case "d":
                 if (cliente.getSaldo() - request.getValor() < cliente.getLimite() * -1) {
-                    throw new TaDuroDormeException("sem cash, ta duro dorme!");
+                    throw new TaDuroDormeException("!");
                 }
                 cliente.setSaldo(cliente.getSaldo() - request.getValor().intValue());
                 break;
@@ -51,7 +51,7 @@ public class TransacaoService {
 
     @Transactional
     public ExtratoResponseDTO buscarUltimosExtratos(Long id) {
-        Cliente cliente = clienteRepository.findByIdWithLock(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado!"));
+        Cliente cliente = clienteRepository.findByIdWithLock(id).orElseThrow(() -> new ClienteNotFoundException("!"));
         SaldoDTO saldoDTO = SaldoDTO.builder().total(cliente.getSaldo())
                 .dataExtrato(Instant.now())
                 .limite(cliente.getLimite()).build();

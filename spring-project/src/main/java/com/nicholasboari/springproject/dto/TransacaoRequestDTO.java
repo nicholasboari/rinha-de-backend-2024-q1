@@ -23,6 +23,6 @@ public class TransacaoRequestDTO {
 
     @AssertTrue
     boolean isAmountIntegerValue() {
-        return Objects.nonNull(valor) && valor % 1 == 0;
+        return valor % 1 == 0;
     }
 }

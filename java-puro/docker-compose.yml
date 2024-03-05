@@ -1,0 +1,50 @@
+version: "3.5"
+
+services:
+  db:
+    image: postgres:latest
+    hostname: db
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=rinha
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./script.sql:/docker-entrypoint-initdb.d/script.sql
+    command: [ "docker-entrypoint.sh", "postgres", "-c", "log_statement=all" ]
+    deploy:
+      resources:
+        limits:
+          cpus: "0.3"
+          memory: "57MB"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+    - db
+    logging:
+      driver: none
+
+  api01: &api
+    image: java-puro:latest
+    hostname: api01
+    environment:
+      - DB_HOSTNAME=db
+      - server.port=8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "241MB"

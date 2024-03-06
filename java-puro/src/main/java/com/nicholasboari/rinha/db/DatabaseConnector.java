@@ -2,6 +2,8 @@ package com.nicholasboari.rinha.db;
 
 
 import com.nicholasboari.rinha.model.Transacao;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
 import java.time.Instant;
@@ -13,11 +15,25 @@ public class DatabaseConnector {
     private static final String DB_USER = "admin";
     private static final String DB_PASSWORD = "admin";
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+    private static final HikariDataSource dataSource;
+
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(DB_URL);
+        config.setUsername(DB_USER);
+        config.setPassword(DB_PASSWORD);
+        config.setMaximumPoolSize(15);
+        config.setMinimumIdle(5);
+        config.setIdleTimeout(30000);
+        config.setTransactionIsolation("TRANSACTION_READ_COMMITTED");
+        dataSource = new HikariDataSource(config);
     }
 
-    public static void saveTransaction(int clienteId, double valor, String tipo, String descricao, Object realizadaEm) {
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    public static void saveTransacao(int clienteId, double valor, String tipo, String descricao, Object realizadaEm) {
         String sql = "INSERT INTO tb_transacao (cliente_id, valor, tipo, descricao, realizada_em) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -48,6 +64,7 @@ public class DatabaseConnector {
                 transacao.setRealizadaEm(rs.getTimestamp("realizada_em").toInstant());
                 transacoes.add(transacao);
             }
+            conn.commit();
         } catch (SQLException e) {
             System.out.println("Deu ruim: " + e.getMessage());
         }
@@ -55,8 +72,8 @@ public class DatabaseConnector {
         return transacoes;
     }
 
-    public static Cliente getCliente(int clienteId) {
-        String sql = "SELECT saldo, limite FROM tb_cliente WHERE cliente_id = ? FOR UPDATE";
+    public static Cliente getClienteInfo(int clienteId) {
+        String sql = "SELECT saldo, limite FROM tb_cliente WHERE cliente_id = ? FOR UPDATE ";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -65,17 +82,52 @@ public class DatabaseConnector {
             if (rs.next()) {
                 int saldo = rs.getInt("saldo");
                 int limite = rs.getInt("limite");
+                  conn.commit();
                 return new Cliente(saldo, limite);
             } else {
-                return null;
+                throw new SQLException("Cliente with ID " + clienteId + " not found");
             }
         } catch (SQLException e) {
-            System.out.println("Deu ruim: " + e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
-    public record Cliente(int saldo, int limite) {
 
+    public static void updateSaldoCliente(int clienteId, int saldo) {
+        String sql = "UPDATE tb_cliente SET saldo = ? WHERE cliente_id = ?";
+
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, saldo);
+            pstmt.setInt(2, clienteId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Deu ruim: " + e.getMessage());
+        }
+    }
+
+    public static class Cliente {
+        int saldo;
+        int limite;
+
+        public Cliente(int saldo, int limite) {
+            this.saldo = saldo;
+            this.limite = limite;
+        }
+
+        public int getSaldo() {
+            return saldo;
+        }
+
+        public void setSaldo(int saldo) {
+            this.saldo = saldo;
+        }
+
+        public int getLimite() {
+            return limite;
+        }
+
+        public void setLimite(int limite) {
+            this.limite = limite;
+        }
     }
 }

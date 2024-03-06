@@ -26,6 +26,7 @@ public class TransacaoHttpHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         // pulei a verificacao do metodo da request 😈😈😈
+        System.out.println("RECEBI REQUEST DE TRANSACAO");
 
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(exchange.getRequestURI().getPath());
@@ -42,27 +43,42 @@ public class TransacaoHttpHandler implements HttpHandler {
 
             try {
                 JSONObject jsonObject = new JSONObject(requestBody.toString());
-
                 if (!Validator.validate(jsonObject)) {
                     exchange.sendResponseHeaders(422, -1);
                     exchange.close();
                     return;
                 }
-                //TODO creditar e debitar
+
+                DatabaseConnector.Cliente cliente = DatabaseConnector.getClienteInfo(clienteId);
+                int saldo = cliente.getSaldo();
+                int limite = cliente.getLimite();
+
+                if (jsonObject.getString("tipo").equals("d") && (saldo + limite) < jsonObject.getInt("valor")) {
+                    exchange.sendResponseHeaders(422, -1);
+                    exchange.close();
+                    return;
+                }
+
+                switch (jsonObject.getString("tipo")) {
+                    case "c" -> saldo += jsonObject.getInt("valor");
+                    case "d" -> saldo -= jsonObject.getInt("valor");
+                }
+                DatabaseConnector.updateSaldoCliente(clienteId, saldo);
 
                 jsonObject.put("realizada_em", Instant.now());
-                DatabaseConnector.saveTransaction(
+                DatabaseConnector.saveTransacao(
                         clienteId,
                         jsonObject.getDouble("valor"),
                         jsonObject.getString("tipo"),
                         jsonObject.getString("descricao"),
                         jsonObject.get("realizada_em"));
-                String jsonResponse = jsonObject.toString();
+
+                String response = "{\"saldo\": " + saldo + ", \"limite\": " + limite + "}";
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
-                exchange.sendResponseHeaders(200, jsonResponse.getBytes().length);
+                exchange.sendResponseHeaders(200, response.getBytes().length);
 
                 OutputStream os = exchange.getResponseBody();
-                os.write(jsonResponse.getBytes());
+                os.write(response.getBytes());
                 os.close();
             } catch (JSONException e) {
                 System.out.println(e.getMessage());
@@ -70,7 +86,8 @@ public class TransacaoHttpHandler implements HttpHandler {
                 exchange.close();
             }
         } else {
-            System.out.println("deu ruim no find wtf");
+            exchange.sendResponseHeaders(404, -1);
+            exchange.close();
         }
     }
 }

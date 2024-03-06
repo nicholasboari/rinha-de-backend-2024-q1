@@ -26,6 +26,9 @@ public class ExtratoHttpHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         // pulei a verificacao do metodo da request 😈😈😈
 
+        System.out.println("RECEBI REQUEST DE EXTRATO");
+
+
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(exchange.getRequestURI().getPath());
 
@@ -36,13 +39,13 @@ public class ExtratoHttpHandler implements HttpHandler {
 
             JSONArray transacoesJson = getTransacoesJson(transacoes);
 
-            DatabaseConnector.Cliente cliente = DatabaseConnector.getCliente(clienteId);
+            DatabaseConnector.Cliente cliente = DatabaseConnector.getClienteInfo(clienteId);
 
             JSONObject jsonObject = new JSONObject();
             JSONObject saldoJson = new JSONObject();
 
-            saldoJson.put("total", cliente.saldo());
-            saldoJson.put("limite", cliente.limite());
+            saldoJson.put("total", cliente.getSaldo());
+            saldoJson.put("limite", cliente.getLimite());
             saldoJson.put("data_extrato", Instant.now());
 
             jsonObject.put("saldo", saldoJson);
@@ -54,6 +57,9 @@ public class ExtratoHttpHandler implements HttpHandler {
             OutputStream outputStream = exchange.getResponseBody();
             outputStream.write(jsonObject.toString().getBytes());
             outputStream.close();
+        } else {
+            exchange.sendResponseHeaders(404, -1);
+            exchange.close();
         }
     }
 

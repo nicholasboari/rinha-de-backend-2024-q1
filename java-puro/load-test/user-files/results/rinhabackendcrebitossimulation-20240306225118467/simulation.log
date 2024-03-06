@@ -1,0 +1,126 @@
+RUN	RinhaBackendCrebitosSimulation	rinhabackendcrebitossimulation	1709765478467	Rinha de Backend - 2024/Q1: Crébito	3.10.3
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478985
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478985
+USER	validação concorrência transações - d	START	1709765478984
+USER	validação concorrência transações - d	START	1709765478984
+REQUEST		validações	1709765478979	1709765479029	OK	 
+REQUEST		validações	1709765478979	1709765479026	OK	 
+REQUEST		validações	1709765478979	1709765479033	OK	 
+REQUEST		validações	1709765478979	1709765479030	OK	 
+REQUEST		validações	1709765478979	1709765479032	OK	 
+REQUEST		validações	1709765478979	1709765479035	OK	 
+USER	validação concorrência transações - d	END	1709765479035
+USER	validação concorrência transações - d	END	1709765479035
+USER	validação concorrência transações - d	END	1709765479035
+USER	validação concorrência transações - d	END	1709765479035
+USER	validação concorrência transações - d	END	1709765479035
+USER	validação concorrência transações - d	END	1709765479035
+REQUEST		validações	1709765478979	1709765479036	OK	 
+REQUEST		validações	1709765478979	1709765479036	OK	 
+USER	validação concorrência transações - d	END	1709765479037
+USER	validação concorrência transações - d	END	1709765479037
+REQUEST		validações	1709765478979	1709765479038	OK	 
+REQUEST		validações	1709765478979	1709765479038	OK	 
+USER	validação concorrência transações - d	END	1709765479038
+USER	validação concorrência transações - d	END	1709765479038
+REQUEST		validações	1709765478979	1709765479040	OK	 
+USER	validação concorrência transações - d	END	1709765479040
+REQUEST		validações	1709765478979	1709765479041	OK	 
+USER	validação concorrência transações - d	END	1709765479041
+REQUEST		validações	1709765478979	1709765479042	OK	 
+USER	validação concorrência transações - d	END	1709765479042
+REQUEST		validações	1709765478979	1709765479043	OK	 
+USER	validação concorrência transações - d	END	1709765479043
+REQUEST		validações	1709765478985	1709765479044	OK	 
+USER	validação concorrência transações - d	END	1709765479045
+REQUEST		validações	1709765478979	1709765479046	OK	 
+USER	validação concorrência transações - d	END	1709765479046
+REQUEST		validações	1709765478979	1709765479047	OK	 
+USER	validação concorrência transações - d	END	1709765479047
+REQUEST		validações	1709765478979	1709765479048	OK	 
+USER	validação concorrência transações - d	END	1709765479048
+REQUEST		validações	1709765478979	1709765479049	OK	 
+USER	validação concorrência transações - d	END	1709765479049
+REQUEST		validações	1709765478979	1709765479050	OK	 
+USER	validação concorrência transações - d	END	1709765479050
+REQUEST		validações	1709765478979	1709765479081	OK	 
+USER	validação concorrência transações - d	END	1709765479081
+REQUEST		validações	1709765478979	1709765479082	OK	 
+USER	validação concorrência transações - d	END	1709765479082
+REQUEST		validações	1709765478979	1709765479083	OK	 
+USER	validação concorrência transações - d	END	1709765479083
+REQUEST		validações	1709765478979	1709765479084	OK	 
+USER	validação concorrência transações - d	END	1709765479084
+REQUEST		validações	1709765478979	1709765479086	OK	 
+USER	validação concorrência transações - d	END	1709765479086
+USER	validação concorrência saldo - -25	START	1709765479956
+REQUEST		validações	1709765479956	1709765479961	KO	jmesPath(saldo.total).find.is(-25), but actually found -23
+USER	validação concorrência saldo - -25	END	1709765479999
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480956
+USER	validação concorrência transações - c	START	1709765480957
+USER	validação concorrência transações - c	START	1709765480957
+USER	validação concorrência transações - c	START	1709765480957
+USER	validação concorrência transações - c	START	1709765480957
+USER	validação concorrência transações - c	START	1709765480957
+USER	validação concorrência transações - c	START	1709765480958
+USER	validação concorrência transações - c	START	1709765480958
+USER	validação concorrência transações - c	START	1709765480958
+USER	validação concorrência transações - c	START	1709765480958
+USER	validação concorrência transações - c	START	1709765480958
+USER	validação concorrência transações - c	START	1709765480958
+USER	validação concorrência transações - c	START	1709765480959
+USER	validação concorrência transações - c	START	1709765480959
+USER	validação concorrência transações - c	START	1709765480959
+USER	validação concorrência transações - c	START	1709765480959
+REQUEST		validações	1709765480956	1709765480960	OK	 
+USER	validação concorrência transações - c	END	1709765480960
+REQUEST		validações	1709765480956	1709765480961	OK	 
+USER	validação concorrência transações - c	END	1709765480961
+REQUEST		validações	1709765480956	1709765480961	OK	 
+USER	validação concorrência transações - c	END	1709765480962
+REQUEST		validações	1709765480956	1709765480962	OK	 
+USER	validação concorrência transações - c	END	1709765480963
+REQUEST		validações	1709765480956	1709765480963	OK	 
+USER	validação concorrência transações - c	END	1709765480963
+REQUEST		validações	1709765480956	1709765480964	OK	 
+USER	validação concorrência transações - c	END	1709765480964
+REQUEST		validações	1709765480956	1709765480964	OK	 
+USER	validação concorrência transações - c	END	1709765480964
+REQUEST		validações	1709765480956	1709765480965	OK	 
+USER	validação concorrência transações - c	END	1709765480965
+REQUEST		validações	1709765480956	1709765480965	OK	 
+USER	validação concorrência transações - c	END	1709765480966
+REQUEST		validações	1709765480956	1709765480966	OK	 
+USER	validação concorrência transações - c	END	1709765480967
+REQUEST		validações	1709765480956	1709765480967	OK	 
+USER	

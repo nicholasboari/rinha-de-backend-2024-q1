@@ -25,9 +25,6 @@ public class TransacaoHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // pulei a verificacao do metodo da request 😈😈😈
-        System.out.println("RECEBI REQUEST DE TRANSACAO");
-
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(exchange.getRequestURI().getPath());
         if (matcher.find()) {
@@ -53,7 +50,7 @@ public class TransacaoHttpHandler implements HttpHandler {
                 int saldo = cliente.getSaldo();
                 int limite = cliente.getLimite();
 
-                if (jsonObject.getString("tipo").equals("d") && (saldo + limite) < jsonObject.getInt("valor")) {
+                if (jsonObject.getString("tipo").equals("d") && saldo + limite < jsonObject.getInt("valor")) {
                     exchange.sendResponseHeaders(422, -1);
                     exchange.close();
                     return;

@@ -25,7 +25,6 @@ public class DatabaseConnector {
         config.setMaximumPoolSize(15);
         config.setMinimumIdle(5);
         config.setIdleTimeout(30000);
-        config.setTransactionIsolation("TRANSACTION_READ_COMMITTED");
         dataSource = new HikariDataSource(config);
     }
 
@@ -36,44 +35,52 @@ public class DatabaseConnector {
     public static void saveTransacao(int clienteId, double valor, String tipo, String descricao, Object realizadaEm) {
         String sql = "INSERT INTO tb_transacao (cliente_id, valor, tipo, descricao, realizada_em) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, clienteId);
-            pstmt.setDouble(2, valor);
-            pstmt.setString(3, tipo);
-            pstmt.setString(4, descricao);
-            pstmt.setTimestamp(5, Timestamp.from((Instant) realizadaEm));
-            pstmt.executeUpdate();
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, clienteId);
+                pstmt.setDouble(2, valor);
+                pstmt.setString(3, tipo);
+                pstmt.setString(4, descricao);
+                pstmt.setTimestamp(5, Timestamp.from((Instant) realizadaEm));
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new RuntimeException("Deu ruim: ", e);
+            } finally {
+                conn.setAutoCommit(true);
+            }
         } catch (SQLException e) {
-            System.out.println("Deu ruim: " + e.getMessage());
+            throw new RuntimeException("Deu ruim: ", e);
         }
     }
 
     public static List<Transacao> getUltimasTransacoesDoCliente(int clienteId) {
         List<Transacao> transacoes = new ArrayList<>();
-        String sql = "SELECT * FROM tb_transacao WHERE cliente_id = ? ORDER BY realizada_em DESC LIMIT 10";
+        String sql = "SELECT valor, tipo, descricao, realizada_em\n" +
+                "FROM tb_transacao\n" +
+                "WHERE cliente_id = ?\n" +
+                "ORDER BY realizada_em DESC\n" +
+                "LIMIT 10 FOR UPDATE";
 
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, clienteId);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Transacao transacao = new Transacao();
-                transacao.setClienteId(rs.getInt("cliente_id"));
                 transacao.setValor(rs.getDouble("valor"));
                 transacao.setTipo(rs.getString("tipo"));
                 transacao.setDescricao(rs.getString("descricao"));
                 transacao.setRealizadaEm(rs.getTimestamp("realizada_em").toInstant());
                 transacoes.add(transacao);
             }
-            conn.commit();
         } catch (SQLException e) {
             System.out.println("Deu ruim: " + e.getMessage());
         }
-
         return transacoes;
     }
 
     public static Cliente getClienteInfo(int clienteId) {
-        String sql = "SELECT saldo, limite FROM tb_cliente WHERE cliente_id = ? FOR UPDATE ";
+        String sql = "SELECT * FROM tb_cliente WHERE cliente_id = ? FOR UPDATE";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -82,10 +89,9 @@ public class DatabaseConnector {
             if (rs.next()) {
                 int saldo = rs.getInt("saldo");
                 int limite = rs.getInt("limite");
-                  conn.commit();
                 return new Cliente(saldo, limite);
             } else {
-                throw new SQLException("Cliente with ID " + clienteId + " not found");
+                throw new SQLException("Deu ruim com o id" + clienteId + " not found");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

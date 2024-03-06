@@ -16,11 +16,11 @@ services:
       - ./postgres.conf:/etc/postgresql/postgresql.conf
       - ./script.sql:/docker-entrypoint-initdb.d/script.sql
     command: [ "postgres", "-c", "config_file=/etc/postgresql/postgresql.conf" ]
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: "0.37"
-#          memory: "57MB"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.3"
+          memory: "135MB"
 
   pgadmin:
     image: dpage/pgadmin4
@@ -48,7 +48,7 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          memory: "241MB"
+          memory: "200MB"
 
   api02:
     <<: *api
@@ -79,5 +79,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.1"
-          memory: "12MB"
+          cpus: "0.2"
+          memory: "15MB"

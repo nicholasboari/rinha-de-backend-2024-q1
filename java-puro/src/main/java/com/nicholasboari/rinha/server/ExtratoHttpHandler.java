@@ -25,10 +25,6 @@ public class ExtratoHttpHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         // pulei a verificacao do metodo da request 😈😈😈
-
-        System.out.println("RECEBI REQUEST DE EXTRATO");
-
-
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(exchange.getRequestURI().getPath());
 
@@ -63,7 +59,8 @@ public class ExtratoHttpHandler implements HttpHandler {
         }
     }
 
-    private static JSONArray getTransacoesJson(List<Transacao> transacoes) {
+
+    public static JSONArray getTransacoesJson(List<Transacao> transacoes) {
         JSONArray transacoesJson = new JSONArray();
         for (Transacao transacao : transacoes) {
             JSONObject jsonTransacao = new JSONObject();

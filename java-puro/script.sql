@@ -1,10 +1,10 @@
-CREATE TABLE tb_cliente (
+CREATE UNLOGGED TABLE tb_cliente (
                             cliente_id BIGSERIAL PRIMARY KEY,
                             limite BIGINT NOT NULL,
                             saldo BIGINT NOT NULL
 );
 
-CREATE TABLE tb_transacao (
+CREATE UNLOGGED TABLE tb_transacao (
                               transacao_id SERIAL PRIMARY KEY,
                               valor BIGINT NOT NULL,
                               tipo VARCHAR(255) NOT NULL,
@@ -14,9 +14,7 @@ CREATE TABLE tb_transacao (
                               FOREIGN KEY (cliente_id) REFERENCES tb_cliente(cliente_id)
 );
 
-CREATE INDEX idx_tb_transacao_cliente_id ON tb_transacao (cliente_id);
-CREATE INDEX idx_tb_transacao_realizada_em ON tb_transacao (realizada_em);
-CREATE INDEX idx_tb_cliente_cliente_id ON tb_cliente (cliente_id);
+CREATE INDEX idx_cliente_id ON tb_transacao (cliente_id);
 
 DO $$
 BEGIN

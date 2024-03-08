@@ -3,6 +3,7 @@ package com.nicholasboari.rinha.model;
 import java.time.Instant;
 
 public class Transacao {
+    private Integer id;
 
     private Integer clienteId;
     private Double valor;
@@ -48,5 +49,13 @@ public class Transacao {
 
     public void setRealizadaEm(Instant realizadaEm) {
         this.realizadaEm = realizadaEm;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

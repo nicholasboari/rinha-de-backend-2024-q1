@@ -59,14 +59,6 @@ services:
     ports:
       - "8082:8082"
 
-
-  warmup:
-    image: curlimages/curl:latest
-    depends_on:
-      - api01
-      - api02
-    command: ["sh", "-c", "sleep 10 && curl http://api01:8081/clientes/1/transacoes && curl http://api02:8082/clientes/1/transacoes"]
-
   nginx:
     image: nginx:latest
     volumes:
@@ -81,3 +73,14 @@ services:
         limits:
           cpus: "0.2"
           memory: "15MB"
+
+  warmup:
+    image: curlimages/curl:latest
+    depends_on:
+      - api01
+      - api02
+      - nginx
+    command: >
+      sh -c 'sleep 10 &&
+      curl -X POST -H "Content-Type: application/json" -d "{\"valor\": 1, \"tipo\": \"d\", \"descricao\": \"null\"}" http://nginx:9999/clientes/1/transacoes &&
+      curl -X POST -H "Content-Type: application/json" -d "{\"valor\": 1, \"tipo\": \"c\", \"descricao\": \"null\"}" http://nginx:9999/clientes/1/transacoes'

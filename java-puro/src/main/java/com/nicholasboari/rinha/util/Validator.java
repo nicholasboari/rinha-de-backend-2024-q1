@@ -5,7 +5,11 @@ import org.json.JSONObject;
 public class Validator {
 
     public static boolean validate(JSONObject obj) {
-        if (obj.getDouble("valor") % 1 != 0) {
+        if (obj.isNull("descricao")) {
+            return false;
+        }
+
+        if (obj.getDouble("valor") % 1 != 0 || obj.getDouble("valor") < 0) {
             return false;
         }
 

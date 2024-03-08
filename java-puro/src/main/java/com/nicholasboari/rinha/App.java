@@ -1,13 +1,10 @@
 package com.nicholasboari.rinha;
 
-import com.nicholasboari.rinha.server.ClientesHttpHandler;
-import com.nicholasboari.rinha.server.ExtratoHttpHandler;
-import com.nicholasboari.rinha.server.TransacaoHttpHandler;
+import com.nicholasboari.rinha.handlers.ClientesHttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
 
 public class App {
     public static void main(String[] args) throws IOException {

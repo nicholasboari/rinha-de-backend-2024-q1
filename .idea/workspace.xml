@@ -4,11 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b433a649-83a0-4052-af1f-e23852d69f86" name="Changes" comment="" />
+    <list default="true" id="b433a649-83a0-4052-af1f-e23852d69f86" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/rinha-de-backend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-puro/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java-puro/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-puro/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/java-puro/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-project/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/spring-project/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-project/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/spring-project/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-project/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spring-project/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-project/run-project.sh" beforeDir="false" afterPath="$PROJECT_DIR$/spring-project/run-project.sh" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -20,10 +34,10 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2cbKBmXXWJQuVNWTOQjyg41kMQ8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,7 +47,10 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/run/media/nicholasboari/Nicholas/estudo/programacao/www/projects/rinha-de-backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -42,10 +59,15 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/java-puro" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.1-openjdk-21.0.1-3183f394aec4-7d648f2c" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-78a6f59c" />
       </set>
     </attachedChunks>
   </component>
@@ -58,6 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1708374705368</updated>
       <workItem from="1708374707421" duration="764000" />
+      <workItem from="1710027923681" duration="2776000" />
     </task>
     <servers />
   </component>

@@ -22,8 +22,7 @@ services:
           memory: "57MB"
 
   api01: &api
-    build: ./api-spring
-    image: api-spring:latest
+    image: nicholasboari/rinha-backend-2024q1-spring
     hostname: api01
     environment:
       - DB_HOSTNAME=db
